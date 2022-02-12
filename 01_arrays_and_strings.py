@@ -1,6 +1,7 @@
 from heapq import merge
 
 
+# 1.1 is unique
 def is_unique(string):
     if len(string) > 128: # total ascii chars
         return False
@@ -12,6 +13,7 @@ def is_unique(string):
             return False
     return True
 
+# 1.2 check permutation
 def check_permutation(s1, s2):
     if len(s1) != len(s2):
         return False
@@ -30,3 +32,9 @@ def check_permutation(s1, s2):
     if len(chars.keys()) == 0:
         return True
     return False
+
+# 1.3 URLify
+def urlify(s):
+	s = s.rstrip()
+	s = s.replace(' ', '%20')
+	return s
