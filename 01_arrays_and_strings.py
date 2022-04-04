@@ -1,4 +1,5 @@
 from heapq import merge
+from struct import pack
 
 
 # 1.1 is unique
@@ -35,6 +36,19 @@ def check_permutation(s1, s2):
 
 # 1.3 URLify
 def urlify(s):
-	s = s.rstrip()
-	s = s.replace(' ', '%20')
-	return s
+    s = s.rstrip()
+    s = s.replace(' ', '%20')
+    return s
+
+# 1.4 Palindrome Permutation
+def palindrome_permutation(input_text):
+    input_text = input_text.replace(' ', '')
+    chars = []
+    for c in input_text:
+        if not c in chars:
+            chars.append(c)
+        else:
+            chars.remove(c)
+    return len(chars) <= 1
+
+print(palindrome_permutation('taco cattx'))
