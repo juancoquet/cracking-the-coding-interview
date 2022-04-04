@@ -50,6 +50,14 @@ def get_kth_to_last(linked_list, k):
 	i = count - k
 	return indexed[i]
 
+# 2.3 delete middle node
+def delete_middle_node(target_node):
+	if target_node is None:
+		raise ValueError("Target node is None")
+	if target_node.next is None:
+		raise ValueError("Target node is the last node")
+	target_node.data = target_node.next.data
+	target_node.next = target_node.next.next
 
 
 
