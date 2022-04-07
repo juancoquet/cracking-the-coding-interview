@@ -1,5 +1,7 @@
 import queue
 
+from data_structures.linked_list import LinkedList
+
 
 # 4.1 route between nodes
 def route_exists(start, target):
@@ -100,5 +102,25 @@ class BinarySearchTree:
         return self.root.__iter__()
 
 
-bst = BinarySearchTree()
-bst.insert_ordered_list([1,2,3,4,5,6,7,8,9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+# 4.3 list of depths
+def create_depth_dict(node, depth=0, node_depths={}):
+    depth_exists = node_depths.get(depth)
+    if not depth_exists:
+        node_depths[depth] = []
+        
+    node_depths[depth].append(node)
+    
+    if node.left_child:
+        create_depth_dict(node.left_child, depth+1, node_depths)
+    if node.right_child:
+        create_depth_dict(node.right_child, depth+1, node_depths)
+    return node_depths
+
+def dict_to_linked_lists(node_depths):
+    lls = []
+    for depth, nodes in node_depths.items():
+        ll = LinkedList() # assuming existence of class
+        for node in nodes:
+            ll.add(node)
+        lls.append(ll)
+    return lls
