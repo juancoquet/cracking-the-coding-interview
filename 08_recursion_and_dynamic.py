@@ -24,3 +24,21 @@ def path_exists(maze, target_row, target_col, path):
         return True
 
     return False
+
+# 8.3 magic index
+def magic_index(a, left_i=0):
+    if len(a) < 1:
+        return None
+    midpoint = len(a) // 2
+    i = midpoint + left_i
+    if a[midpoint] == i:
+        return i
+    elif a[midpoint] > i:
+        return magic_index(a[:midpoint], left_i=left_i)
+    else:
+        return magic_index(a[midpoint+1:], left_i=i+1)
+
+
+a = [-40, -20, -1, 1, 2, 3, 5, 7, 9, 12, 13]
+
+print(magic_index(a))
