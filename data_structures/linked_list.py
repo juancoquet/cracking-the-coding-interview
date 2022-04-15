@@ -4,6 +4,30 @@ class Node:
         self.data = data
         self.next = None
 
+    # comparison operators
+    def __eq__(self, other):
+        return self.data == other
+
+    def __ne__(self, other):
+        return self.data != other
+
+    def __lt__(self, other):
+        return self.data < other
+    def __le__(self, other):
+        return self.data <= other
+
+    def __gt__(self, other):
+        return self.data > other
+
+    def __ge__(self, other):
+        return self.data >= other
+
+    def __str__(self):
+        return str(self.data)
+
+    def __repr__(self) -> str:
+        return str(self.data)
+
 
 class LinkedList:
 
@@ -15,6 +39,12 @@ class LinkedList:
         while current:
             yield current.data
             current = current.next
+
+    def __str__(self):
+        return str(list(self))
+        
+    def __repr__(self):
+        return str(self)
     
     def is_empty(self):
         return self.head == None
