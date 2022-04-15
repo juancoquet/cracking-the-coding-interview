@@ -51,4 +51,52 @@ def palindrome_permutation(input_text):
             chars.remove(c)
     return len(chars) <= 1
 
-print(palindrome_permutation('taco cattx'))
+# 1.5 One Away
+def char_inserted(s1, s2):
+	if len(s2) != len(s1) + 1:
+		return False
+	for i, c in enumerate(s1):
+		if c != s2[i]:
+			break
+	else:
+		i += 1
+	if i < len(s2) - 1:
+		s3 = s2[:i] + s2[i+1:]
+	else:
+		s3 = s2[:-1]
+	return s1 == s3
+
+def char_deleted(s1, s2):
+	if len(s2) != len(s1) - 1:
+		return False
+	for i, c in enumerate(s2):
+		if c != s1[i]:
+			break
+	else:
+		i += 1
+	if i < len(s1) - 1:
+		s3 = s1[:i] + s1[i+1:]
+	else:
+		s3 = s1[:-1]
+	return s2 == s3
+
+def char_replaced(s1, s2):
+	if len(s1) != len(s2):
+		return False
+	for i, c in enumerate(s1):
+		if c != s2[i]:
+			break
+	else:
+		return False
+	if i < len(s1) - 1:
+		s1 = s1[:i] + s1[i+1:]
+		s2 = s2[:i] + s2[i+1:]
+	else:
+		s1 = s1[:-1]
+		s2 = s2[:-1]
+	return s1 == s2
+
+def one_away(s1, s2):
+	if s1 == s2:
+		return True
+	return char_inserted(s1, s2) or char_deleted(s1, s2) or char_replaced(s1, s2)
