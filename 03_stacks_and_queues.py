@@ -38,7 +38,7 @@ class MinStack():
         return top_node.substack_min
 
 
-# solving 3.3 Stack of Plates
+# 3.3 Stack of Plates
 class StackOfStacks():
 
     def __init__(self, threshold):
@@ -67,3 +67,33 @@ class StackOfStacks():
         item = stack.pop()
         if stack.size == 0 and len(self.stacks) > 1:
             self.stacks.pop(i)
+
+# 3.4 Queue via Stacks
+class MyQueue:
+
+    def __init__(self):
+        self.main = Stack() # assuming prior existence of Stack class
+        self.aux = Stack()
+        self.last_op = 'enq'
+
+    def enqueue(self, item):
+        if self.last_op == 'deq':
+            while not self.main.is_empty():
+                transfer = self.main.pop()
+                self.aux.push(transfer)
+        self.aux.push(item)
+        self.last_op = 'enq'
+
+    def dequeue(self):
+        if self.last_op == 'enq':
+            while not self.aux.is_empty():
+                transfer = self.aux.pop()
+                self.main.push(transfer)
+        self.last_op = 'deq'
+        return self.main.pop()
+
+    def size(self):
+        return self.main.size()
+
+    def is_empty(self):
+        return self.main.is_empty()
