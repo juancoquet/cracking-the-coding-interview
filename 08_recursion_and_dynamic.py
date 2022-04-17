@@ -39,6 +39,19 @@ def magic_index(a, left_i=0):
         return magic_index(a[midpoint+1:], left_i=i+1)
 
 
-a = [-40, -20, -1, 1, 2, 3, 5, 7, 9, 12, 13]
-
-print(magic_index(a))
+# 8.4 power set
+def get_all_subsets(s, i=None):
+    if i == -1:     # last recursive call
+        return [[]]
+    if i is None:   # first call
+        i = len(s) - 1
+    
+    smaller_subs = get_all_subsets(s, i-1)
+    new_subs = []
+    new_item = s[i]
+    for _set in smaller_subs:
+        new_subs.append(_set)
+        new_set = _set[:]
+        new_set.append(new_item)
+        new_subs.append(new_set)
+    return new_subs
