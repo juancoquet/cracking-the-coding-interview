@@ -61,4 +61,50 @@ def bin_search(target, a, left_i=0):
         return bin_search(target, a[:midpoint], left_i=left_i)
 
 
-a = [15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14]
+# 10.4 'sorted serach, no size'
+class Listy(list):
+
+    def __getitem__(self, i):
+        try:
+            return super().__getitem__(i)
+        except IndexError:
+            return -1
+
+
+def get_size(listy):
+    s = 1
+    while listy[s] != -1:
+        s *= 2
+    return _get_size(listy, s//2, s)
+
+def _get_size(listy, left, right):
+    if left == right:
+        return left + 1
+    elif right - left == 1 and listy[right] == -1:
+        return left + 1
+    elif right - left == 1 and listy[right] != -1:
+        return right + 1
+
+    mid = (left + right) // 2
+    found = listy[mid]
+    if found == -1:
+        return _get_size(listy, left, mid)
+    else:
+        return _get_size(listy, mid, right)
+
+def bin_search(listy, x, left, right):
+	mid = (left + right) // 2
+	if listy[mid] == x:
+		return mid
+	if listy[mid] < x:
+		return bin_search(listy, x, mid+1, right)
+	if listy[mid] > x:
+		return bin_search(listy, x, left, mid-1)
+
+def search(listy, x):
+	size = get_size(listy)
+	return bin_search(listy, x, left=0, right=size-1)
+
+
+l = Listy([1, 2, 3, 4])
+print(search(l, 4))
