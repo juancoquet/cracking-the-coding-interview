@@ -124,3 +124,24 @@ def dict_to_linked_lists(node_depths):
             ll.add(node)
         lls.append(ll)
     return lls
+
+
+# 4.4 check balanced
+def get_height(node):
+    if node is None:
+        return 0
+    if node.height is not None:
+        return node.height # assuming modified Node class
+    height = 1 + max(get_height(node.left_child), get_height(node.right_child))
+    node.height = height
+    return height
+
+def check_balanced(node):
+    if node is None:
+        return True
+    left_height = get_height(node.left_child)
+    right_height = get_height(node.right_child)
+    diff = left_height - right_height
+    if not -1 <= diff <= 1:
+        return False
+    return check_balanced(node.left_child) and check_balanced(node.right_child)
