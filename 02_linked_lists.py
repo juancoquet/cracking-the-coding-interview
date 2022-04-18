@@ -91,14 +91,28 @@ def partition(llist, partition):
             predecessor = predecessor.next
     return llist
 
-llist = LinkedList()
-llist.add(1)
-llist.add(9)
-llist.add(3)
-llist.add(3)
-llist.add(4)
-llist.add(2)
-llist.add(1)
-llist.add(6)
-llist.add(12)
-print(llist)
+
+# 2.5 sum lists
+def sum_lists(num_list1, num_list2):
+    num1, num2 = '', ''
+    current = num_list1.head
+    while current is not None:
+        digit = str(current.data)
+        num1 = digit + num1
+        current = current.next
+    
+    current = num_list2.head
+    while current is not None:
+        digit = str(current.data)
+        num2 = digit + num2
+        current = current.next
+
+    num1 = int(num1)
+    num2 = int(num2)
+    result = str(num1 + num2)
+    result_ll = LinkedList()
+    
+    for c in result:
+        result_ll.add(int(c))
+    
+    return result_ll
