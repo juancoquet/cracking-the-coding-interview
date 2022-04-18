@@ -50,3 +50,19 @@ def next_number(bits):
     bigger = next_biggest(bits)
     smaller = next_smallest(bits)
     return bigger, smaller
+
+
+# 5.5 conversion
+def converstion(a, b):
+    if a == b:
+        return 0
+    length = max([a.bit_length(), b.bit_length()])
+    count = 0
+    for i in range(length):
+        if get_bit(a, i) != get_bit(b, i):
+            count += 1
+    return count
+
+def get_bit(num, i):
+    mask = 1 << i
+    return num & mask != 0

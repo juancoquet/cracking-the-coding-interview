@@ -1,6 +1,7 @@
 import queue
 
 from data_structures.linked_list import LinkedList
+from data_structures.trees import BinaryTree, BinarySearchTree
 
 
 # 4.1 route between nodes
@@ -59,7 +60,7 @@ class Node:
                     yield node
 
 
-class BinarySearchTree:
+class CustomBinarySearchTree:
     
     def __init__(self, root=None):
         self.root = root
@@ -145,3 +146,23 @@ def check_balanced(node):
     if not -1 <= diff <= 1:
         return False
     return check_balanced(node.left_child) and check_balanced(node.right_child)
+
+
+# 4.5 check if binary tree is a BST
+def validate_bst(root):
+    if root is None:
+        return True
+        
+    left_valid = (root.left_child is None) or (root.left_child < root)
+    right_valid = (root.right_child is None) or (root.right_child >= root)
+    root_valid = left_valid and right_valid
+    if not root_valid:
+        return False
+        
+    l_subtree_valid = validate_bst(root.left_child)
+    if not l_subtree_valid:
+        return False
+    r_subtree_valid = validate_bst(root.right_child)
+    if not r_subtree_valid:
+        return False
+    return l_subtree_valid and r_subtree_valid

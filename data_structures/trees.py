@@ -21,6 +21,26 @@ class BinaryTree:
             insert_node.right_child = self.right_child
             self.right_child = insert_node
 
+    # comparison operators
+    def __eq__(self, other):
+         return self.key == other
+
+    def __ne__(self, other):
+        return self.key != other
+
+    def __lt__(self, other):
+        return self.key < other
+
+    def __le__(self, other):
+        return self.key <= other
+
+    def __gt__(self, other):
+        return self.key > other
+
+    def __ge__(self, other):
+        return self.key >= other
+
+
 
 class BinarySearchTree:
     
@@ -163,6 +183,25 @@ class TreeNode:
             if self.has_right_child():
                 for node in self.right_child:
                     yield node
+
+    # comparison operators
+    def __eq__(self, other):
+         return self.key == other
+
+    def __ne__(self, other):
+        return self.key != other
+
+    def __lt__(self, other):
+        return self.key < other
+
+    def __le__(self, other):
+        return self.key <= other
+
+    def __gt__(self, other):
+        return self.key > other
+
+    def __ge__(self, other):
+        return self.key >= other
 
     def is_left_child(self):
         return self.parent and self.parent.left_child == self
