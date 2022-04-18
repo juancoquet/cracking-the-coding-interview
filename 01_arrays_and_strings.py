@@ -1,3 +1,4 @@
+from bz2 import compress
 from heapq import merge
 from struct import pack
 
@@ -53,50 +54,71 @@ def palindrome_permutation(input_text):
 
 # 1.5 One Away
 def char_inserted(s1, s2):
-	if len(s2) != len(s1) + 1:
-		return False
-	for i, c in enumerate(s1):
-		if c != s2[i]:
-			break
-	else:
-		i += 1
-	if i < len(s2) - 1:
-		s3 = s2[:i] + s2[i+1:]
-	else:
-		s3 = s2[:-1]
-	return s1 == s3
+    if len(s2) != len(s1) + 1:
+        return False
+    for i, c in enumerate(s1):
+        if c != s2[i]:
+            break
+    else:
+        i += 1
+    if i < len(s2) - 1:
+        s3 = s2[:i] + s2[i+1:]
+    else:
+        s3 = s2[:-1]
+    return s1 == s3
 
 def char_deleted(s1, s2):
-	if len(s2) != len(s1) - 1:
-		return False
-	for i, c in enumerate(s2):
-		if c != s1[i]:
-			break
-	else:
-		i += 1
-	if i < len(s1) - 1:
-		s3 = s1[:i] + s1[i+1:]
-	else:
-		s3 = s1[:-1]
-	return s2 == s3
+    if len(s2) != len(s1) - 1:
+        return False
+    for i, c in enumerate(s2):
+        if c != s1[i]:
+            break
+    else:
+        i += 1
+    if i < len(s1) - 1:
+        s3 = s1[:i] + s1[i+1:]
+    else:
+        s3 = s1[:-1]
+    return s2 == s3
 
 def char_replaced(s1, s2):
-	if len(s1) != len(s2):
-		return False
-	for i, c in enumerate(s1):
-		if c != s2[i]:
-			break
-	else:
-		return False
-	if i < len(s1) - 1:
-		s1 = s1[:i] + s1[i+1:]
-		s2 = s2[:i] + s2[i+1:]
-	else:
-		s1 = s1[:-1]
-		s2 = s2[:-1]
-	return s1 == s2
+    if len(s1) != len(s2):
+        return False
+    for i, c in enumerate(s1):
+        if c != s2[i]:
+            break
+    else:
+        return False
+    if i < len(s1) - 1:
+        s1 = s1[:i] + s1[i+1:]
+        s2 = s2[:i] + s2[i+1:]
+    else:
+        s1 = s1[:-1]
+        s2 = s2[:-1]
+    return s1 == s2
 
 def one_away(s1, s2):
-	if s1 == s2:
-		return True
-	return char_inserted(s1, s2) or char_deleted(s1, s2) or char_replaced(s1, s2)
+    if s1 == s2:
+        return True
+    return char_inserted(s1, s2) or char_deleted(s1, s2) or char_replaced(s1, s2)
+
+
+# 1.6 string compression
+def string_compression(s):
+    length = len(s)
+    compressed = ''
+    current_char = s[0]
+    count = 0
+    for c in s:
+        if c != current_char:
+            compressed += current_char + str(count)
+            current_char = c
+            count = 1
+            if len(compressed) >= length:
+                return s
+        else:
+            count += 1
+    compressed += current_char + str(count)
+    return compressed
+
+print(string_compression('abc'))
