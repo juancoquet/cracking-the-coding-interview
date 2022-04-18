@@ -13,10 +13,17 @@ class Stack:
         return self.items.pop()
 
     def peek(self):
-        return self.items[len(self.items)-1]
+        try:
+            top = self.items[-1]
+        except IndexError:
+            top = None
+        return top
 
     def size(self):
         return len(self.items)
+
+    def __repr__(self):
+        return 'bottom ' + str(self.items) + ' top'
 
 
 
@@ -55,8 +62,6 @@ def infix_to_postfix(infix_expr):
     
     return " ".join(postfix)
 
-print(infix_to_postfix("A * B + C * D"))
-
 
 # Evaluate a space-separated postfix expression
 
@@ -74,7 +79,3 @@ def eval_postfix(postfix_expr):
             operands.push(result)
     
     return operands.pop()
-
-print(eval_postfix("7 8 + 3 2 + /"))
-
-            

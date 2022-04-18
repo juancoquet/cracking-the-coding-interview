@@ -97,3 +97,30 @@ class MyQueue:
 
     def is_empty(self):
         return self.main.is_empty()
+
+
+# 3.5 Sort Stack
+def sort_stack(stack):
+    aux = Stack()
+    while not stack.is_empty():
+        current = stack.pop()
+        insert(stack, aux, current)
+    while not aux.is_empty():
+        stack.push(aux.pop())
+    return stack
+
+def insert(main, aux, item):
+    if aux.peek() is None or aux.peek() <= item:
+        aux.push(item)
+        return
+    main.push(aux.pop())
+    return insert(main, aux, item)
+
+stack = Stack()
+stack.push(5)
+stack.push(3)
+stack.push(6)
+stack.push(9)
+stack.push(1)
+print(stack)
+print(sort_stack(stack))
