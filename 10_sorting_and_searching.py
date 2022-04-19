@@ -93,18 +93,44 @@ def _get_size(listy, left, right):
         return _get_size(listy, mid, right)
 
 def bin_search(listy, x, left, right):
-	mid = (left + right) // 2
-	if listy[mid] == x:
-		return mid
-	if listy[mid] < x:
-		return bin_search(listy, x, mid+1, right)
-	if listy[mid] > x:
-		return bin_search(listy, x, left, mid-1)
+    mid = (left + right) // 2
+    if listy[mid] == x:
+        return mid
+    if listy[mid] < x:
+        return bin_search(listy, x, mid+1, right)
+    if listy[mid] > x:
+        return bin_search(listy, x, left, mid-1)
 
 def search(listy, x):
-	size = get_size(listy)
-	return bin_search(listy, x, left=0, right=size-1)
+    size = get_size(listy)
+    return bin_search(listy, x, left=0, right=size-1)
 
 
-l = Listy([1, 2, 3, 4])
-print(search(l, 4))
+# 10.5 sparse search
+def sparse_search(target, a, left=0):
+    mid = len(a) // 2
+    if a[mid] == target:
+        return mid + left
+    if a[mid] != "":
+        if a[mid] < target:
+            return sparse_search(target, a[mid+1:], left=mid+left+1)
+        if a[mid] > target:
+            return sparse_search(target, a[:mid], left=left)
+    else:
+        l, r = (mid - 1, mid + 1)
+        while a[l] == "" and a[r] == "":
+            if l > 0:
+                l -= 1
+            if r < len(a) - 1:
+                r -= 1
+        if a[l]:
+            mid = l
+        elif a[r]:
+            mid = r
+        
+        if a[mid] == target:
+            return mid + left
+        if a[mid] < target:
+            return sparse_search(target, a[mid+1:], left=mid+left+1)
+        if a[mid] > target:
+            return sparse_search(target, a[:mid], left=left)

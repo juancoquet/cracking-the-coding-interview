@@ -52,7 +52,7 @@ def next_number(bits):
     return bigger, smaller
 
 
-# 5.5 conversion
+# 5.6 conversion
 def converstion(a, b):
     if a == b:
         return 0

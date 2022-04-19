@@ -55,3 +55,34 @@ def get_all_subsets(s, i=None):
         new_set.append(new_item)
         new_subs.append(new_set)
     return new_subs
+
+
+# 8,5 recursive multiply
+# O(n) solution
+def recursive_multiply_a(a, b):
+	if b == 0:
+		return 0
+	return a + recursive_multiply_a(a, b-1)
+
+# O(log n) solution
+def recursive_multiply_b(a, b, i=None):
+    if i is None:
+        i = b.bit_length() - 1
+        
+    if i == 0:
+        if get_bit(b, i):
+            return a
+        else:
+            return 0
+            
+    if get_bit(b, i):
+        return (a << i) + recursive_multiply_b(a, b, i-1)
+    else:
+        return recursive_multiply_b(a, b, i-1)
+
+def get_bit(num, i):
+    mask = 1 << i
+    return (num & mask) != 0
+
+
+print(recursive_multiply_b(2, 4000000000))
