@@ -10,3 +10,37 @@ def word_freq(book):
             freqs[w] = 1
     return freqs
 
+
+# 16.4 tic tac toe win
+def tic_tac_win(board, board_size=3):
+    for row in board:
+        first_item = row[0]
+        for item in row:
+            if item != first_item:
+                break
+        else: # all items were the same
+            return True
+    
+    for col in range(board_size):
+        first_item = board[0][col]
+        for row in board:
+            if row[col] != first_item:
+                break
+        else: # all items were the same
+            return True
+
+    top_left = board[0][0]
+    for i in range(board_size):
+        if board[i][i] != top_left:
+            break
+    else:
+        return True
+
+    top_right = board[0][-1]
+    for row, col in zip(range(board_size), range(board_size-1, -1, -1)):
+        if board[row][col] != top_right:
+            break
+    else:
+        return True
+    
+    return False
