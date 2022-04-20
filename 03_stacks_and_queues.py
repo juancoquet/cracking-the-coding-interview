@@ -116,11 +116,36 @@ def insert(main, aux, item):
     main.push(aux.pop())
     return insert(main, aux, item)
 
-stack = Stack()
-stack.push(5)
-stack.push(3)
-stack.push(6)
-stack.push(9)
-stack.push(1)
-print(stack)
-print(sort_stack(stack))
+
+# 3.6 Animal Shelter
+class Animal:
+
+    def __init__(self, name, animal_type):
+        self.name = name
+        self.animal_type = animal_type
+
+    def __str__(self):
+        return self.name
+
+class AnimalQueue:
+
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, animal):
+        self.queue.append(animal)
+
+    def dequeue_any(self):
+        return self.queue.pop(0)
+
+    def dequeue_dog(self):
+        for i, animal in enumerate(self.queue):
+            if animal.animal_type == 'dog':
+                return self.queue.pop(i)
+        return None
+
+    def dequeue_cat(self):
+        for i, animal in enumerate(self.queue):
+            if animal.animal_type == 'cat':
+                return self.queue.pop(i)
+        return None

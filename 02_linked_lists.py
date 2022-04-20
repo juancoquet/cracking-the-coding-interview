@@ -1,16 +1,5 @@
 from data_structures.linked_list import LinkedList
 
-llist = LinkedList()
-llist.add(1)
-llist.add(9)
-llist.add(3)
-llist.add(3)
-llist.add(4)
-llist.add(2)
-llist.add(1)
-llist.add(6)
-llist.add(4)
-
 
 # 2.1 remove duplicates
 def remove_dups(linked_list):
@@ -139,12 +128,3 @@ def palindrome(llist):
             return False
         current = current.next
     return True
-
-l = LinkedList()
-l.add(1)
-l.add(2)
-l.add(3)
-l.add(2)
-l.add(1)
-
-print(palindrome(l))
