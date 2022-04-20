@@ -1,8 +1,3 @@
-from bz2 import compress
-from heapq import merge
-from struct import pack
-
-
 # 1.1 is unique
 def is_unique(string):
     if len(string) > 128: # total ascii chars
@@ -121,4 +116,17 @@ def string_compression(s):
     compressed += current_char + str(count)
     return compressed
 
-print(string_compression('abc'))
+
+# 1.7 rotate matrix
+import copy
+
+def rotate(matrix):
+    n = len(matrix)
+    m_copy = copy.deepcopy(matrix)
+
+    col = n - 1
+    for row in matrix:
+        for r in m_copy:
+            r[col] = row.pop(0)
+        col -= 1
+    return m_copy

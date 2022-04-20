@@ -1,3 +1,5 @@
+import math
+
 # 17.1 Add without plus
 def add_without_plus(a, b):
     bit_length = max(a.bit_length(), b.bit_length())
@@ -38,3 +40,22 @@ def shuffle(deck):
         card = deck.pop(i)
         shuffled.append(card)
     return shuffled
+
+
+# 17.4 missing number
+def missing_number(a):
+	n = len(a) + 1
+	bits = math.ceil(math.log(n, 2))
+	nums = {}
+	
+	for item in a:
+		num = 0
+		for i in range(bits):
+			bit = get_bit(item, i)
+			num += bit * (2**i)
+		nums[num] = True
+	
+	for num in range(n):
+		if nums.get(num) is None:
+			return num
+

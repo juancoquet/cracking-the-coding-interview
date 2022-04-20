@@ -116,3 +116,35 @@ def sum_lists(num_list1, num_list2):
         result_ll.add(int(c))
     
     return result_ll
+
+
+# 2.7 palindrome
+from data_structures.stack import Stack
+
+def palindrome(llist):
+    size = llist.size()
+    mid = size // 2
+    checked = Stack()
+    i = 0
+    current = llist.head
+    while i < mid:
+        checked.push(current)
+        current = current.next
+        i += 1
+    if size % 2 == 0:
+        checked.push(current)
+    current = current.next
+    while current:
+        if current != checked.pop():
+            return False
+        current = current.next
+    return True
+
+l = LinkedList()
+l.add(1)
+l.add(2)
+l.add(3)
+l.add(2)
+l.add(1)
+
+print(palindrome(l))
