@@ -166,3 +166,25 @@ def validate_bst(root):
     if not r_subtree_valid:
         return False
     return l_subtree_valid and r_subtree_valid
+
+
+# 4.6 find successor in a BST
+def find_successor(node):
+    if node.right_child is not None:
+        return find_min(node.right_child)
+    if node.parent is not None: # not root
+        if node.is_left_child():
+            return node.parent
+        if node.is_right_child():
+            node.parent.right_child = None # prune node
+            successor = find_successor(node.parent)
+            node.parent.right_child = node # put back
+    else:
+        successor = None
+    return successor
+
+def find_min(node):
+    curr = node
+    while curr.left_child is not None:
+        curr = curr.left_child
+    return curr
