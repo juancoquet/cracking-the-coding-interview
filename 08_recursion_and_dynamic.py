@@ -60,9 +60,9 @@ def get_all_subsets(s, i=None):
 # 8,5 recursive multiply
 # O(n) solution
 def recursive_multiply_a(a, b):
-	if b == 0:
-		return 0
-	return a + recursive_multiply_a(a, b-1)
+    if b == 0:
+        return 0
+    return a + recursive_multiply_a(a, b-1)
 
 # O(log n) solution
 def recursive_multiply_b(a, b, i=None):
@@ -85,4 +85,25 @@ def get_bit(num, i):
     return (num & mask) != 0
 
 
-print(recursive_multiply_b(2, 4000000000))
+# 8.6 'towers of hanoi'
+def hanoi(from_, via, to, n=None):
+    if n is None:
+        n = from_.size()
+    if n == 1:
+        to.push(from_.pop())
+        return
+
+    hanoi(from_=from_, via=to, to=via, n=n-1)
+    to.push(from_.pop())
+    hanoi(from_=via, via=from_, to=to, n=n-1)
+
+from data_structures.stack import Stack
+a = Stack()
+a.push(5)
+a.push(4)
+a.push(3)
+a.push(2)
+a.push(1)
+b = Stack()
+c = Stack()
+hanoi(from_=a, via=b, to=c)
