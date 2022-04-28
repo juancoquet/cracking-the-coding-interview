@@ -111,3 +111,116 @@ class CallCentre:
         call.handler.call = None
         call.handler = None
 
+
+# 7.6 'jigsaw'
+class Piece:
+
+    def __init__(self, id):
+        self.id = id
+        self.belongs_with = {
+            'top': None,
+            'right': None,
+            'bottom': None,
+            'left': None
+        }
+        self.top = None
+        self.right = None
+        self.bottom = None
+        self.left = None
+
+    def is_solved(self):
+        top = self.top == self.belongs_with['top']
+        right = self.right == self.belongs_with['right']
+        bottom = self.bottom == self.belongs_with['bottom']
+        left = self.left == self.belongs_with['left']
+        return all([top, right, bottom, left])
+
+    def is_top(self):
+        return self.belongs_with['top'] is None
+
+    def is_right(self):
+        return self.belongs_with['right'] is None
+
+    def is_bottom(self):
+        return self.belongs_with['bottom'] is None
+
+    def is_left(self):
+        return self.belongs_with['left'] is None
+
+    def is_corner(self):
+        top = self.is_top()
+        right = self.is_right()
+        bottom = self.is_bottom()
+        left = self.is_left()
+        return ((top is None and left is None) or
+            (top is None and right is None) or
+            (bottom is None and left is None) or
+            (bottom is None and right is None))
+
+
+class Jigsaw:
+
+    def __init__(self, size):
+        self.size = size
+        self.pieces = self._generate()
+        self.placed = {}
+        self.solved = {}
+
+
+    def _generate(self):
+        pieces = {}
+        for i in range(self.size**2):
+            pieces[i] = Piece(i)
+        
+        for i, p in pieces.items():
+            if not self._belongs_top(p):
+                p.belongs_with['top'] = self.pieces[i-self.size]
+            if not self._belongs_right(p):
+                p.belongs_with['right'] = self.pieces[i+1]
+            if not self._belongs_bottom(p):
+                p.belongs_with['bottom'] = self.pieces[i+self.size]
+            if not self._belongs_left(p):
+                p.belongs_with['left'] = self.pieces[i-1]	
+            
+        return pieces
+
+    def _belongs_top(self, piece):
+        return piece.id < self.size
+
+    def _belongs_right(self, piece):
+        return piece.id % self.size == self.size - 1
+
+    def _belongs_bottom(self, piece):
+        return piece.id >= self.size * (self.size - 1)
+
+    def _belongs_left(self, piece):
+        return piece.id % self.size == 0
+
+    def connect(self, p1, p2):
+        for edge, piece in p1.belongs_with.items():
+            if piece == p2:
+                p1[edge] = p2
+                break
+        for edge, piece in p2.belongs_with.items():
+            if piece == p1:
+                p2[edge] = p1
+                break
+
+    def solve(self):
+        for i, piece in self.pieces.items():
+            if piece.is_corner():
+                self.placed[i] = piece
+                del self.pieces[i]
+
+            for target in piece.belongs_with.values():
+                if target.id in self.placed:
+                    self.connect(piece, target)
+                if not piece.id in self.placed:
+                    self.placed[piece.id] = piece
+                    del self.pieces[piece.id]
+                if target.is_solved():
+                    self.sovled[target.id] = target
+                    del self.placed[target.id]
+                if piece.is_solved():
+                    self.solved[piece.id] = piece
+                    del self.placed[piece.id]
