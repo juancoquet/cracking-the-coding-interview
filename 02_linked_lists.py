@@ -128,3 +128,31 @@ def palindrome(llist):
             return False
         current = current.next
     return True
+
+
+# 2.8 intersection
+def intersection(a, b):
+    diff = 0
+    longer = None
+    if a.size() > b.size():
+        diff = a.size() - b.size()
+        longer = a
+    if b.size() > a.size():
+        diff = b.size() - a.size()
+        longer = b
+    
+    current_a = a.head
+    current_b = b.head
+
+    if a is longer:
+        for _ in range(diff):
+            current_a = current_a.next
+    elif b is longer:
+        for _ in range(diff):
+            current_b = current_b.next
+
+    while current_a is not current_b:
+        current_a = current_a.next
+        current_b = current_b.next
+
+    return current_a
