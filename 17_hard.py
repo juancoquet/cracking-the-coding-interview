@@ -44,18 +44,45 @@ def shuffle(deck):
 
 # 17.4 missing number
 def missing_number(a):
-	n = len(a) + 1
-	bits = math.ceil(math.log(n, 2))
-	nums = {}
-	
-	for item in a:
-		num = 0
-		for i in range(bits):
-			bit = get_bit(item, i)
-			num += bit * (2**i)
-		nums[num] = True
-	
-	for num in range(n):
-		if nums.get(num) is None:
-			return num
+    n = len(a) + 1
+    bits = math.ceil(math.log(n, 2))
+    nums = {}
+    
+    for item in a:
+        num = 0
+        for i in range(bits):
+            bit = get_bit(item, i)
+            num += bit * (2**i)
+        nums[num] = True
+    
+    for num in range(n):
+        if nums.get(num) is None:
+            return num
 
+# 17.5 letters and numbers
+def letters_and_numbers(a):
+    letters, numbers = 0, 0
+    diffs = [0]
+    for item in a:
+        if type(item) is str:
+            letters += 1
+        if type(item) is int:
+            numbers += 1
+        diffs.append(letters - numbers)
+
+    first_appeared = {}
+    longest_sub = []
+    
+    for i, diff in enumerate(diffs):
+        if not diff in first_appeared:
+            first_appeared[diff] = i
+        else:
+            sub_length = i - first_appeared[diff]
+            if sub_length > len(longest_sub):
+                start = first_appeared[diff]
+                longest_sub = a[start:i]
+    return longest_sub
+
+a = [0, 0, 0, 0, 0, 'a', 1, 'b', 2, 'c', 3, 4, 5, 6, 'd']
+
+print(letters_and_numbers(a))
