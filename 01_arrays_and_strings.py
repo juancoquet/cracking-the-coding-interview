@@ -130,3 +130,18 @@ def rotate(matrix):
             r[col] = row.pop(0)
         col -= 1
     return m_copy
+
+
+# 1.8 zero matrix
+def zero_matrix(matrix):
+    rows = len(matrix)
+    cols = len(matrix[0])
+
+    for r in range(rows):
+        for c in range(cols):
+            if matrix[r][c] == 0:
+                matrix[r] = [0 for _ in matrix[r]]
+                for row in matrix:
+                    row[c] = 0
+                break
+    return matrix
