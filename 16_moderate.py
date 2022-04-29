@@ -44,3 +44,20 @@ def tic_tac_win(board, board_size=3):
         return True
     
     return False
+
+# 16.5 factorial zeros
+def factorial(n):
+	if n == 1:
+		return 1
+	return factorial(n-1) * n
+
+def trailing_zeros(n):
+	zeros = 0
+	while n % 10 == 0:
+		zeros += 1
+		n /= 10
+
+def factorial_zeros(n):
+	fact = factorial(n)
+	zeros = trailing_zeros(fact)
+	return zeros
