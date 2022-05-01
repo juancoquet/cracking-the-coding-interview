@@ -107,7 +107,7 @@ def sum_lists(num_list1, num_list2):
     return result_ll
 
 
-# 2.7 palindrome
+# 2.6 palindrome
 from data_structures.stack import Stack
 
 def palindrome(llist):
@@ -130,7 +130,7 @@ def palindrome(llist):
     return True
 
 
-# 2.8 intersection
+# 2.7 intersection
 def intersection(a, b):
     diff = 0
     longer = None

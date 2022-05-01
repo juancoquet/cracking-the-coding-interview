@@ -188,3 +188,63 @@ def find_min(node):
     while curr.left_child is not None:
         curr = curr.left_child
     return curr
+
+
+# 4.7 build order
+class Project:
+
+    def __init__(self, name):
+        self.name = name
+        self.connected_to = []
+        self.visited = False
+        self.discovered = None
+        self.fully_searched = False
+        self.predecessor = None
+        self.finished = None
+
+    def add_dependency(self, to_project):
+        self.connected_to.append(to_project)
+
+
+class Graph:
+
+    def __init__(self):
+        self.vertices = {}
+        self.time = 0
+
+    def add_vertex(self, name):
+        vertex = Project(name)
+        self.vertices[name] = vertex
+
+    def get_vertex(self, name):
+        return self.vertices.get(name)
+
+    def add_edge(self, from_vx, to_vx):
+        if from_vx not in self.vertives:
+            self.add_vertex(from_vx)
+        if to_vx not in self.vertices:
+            self.add_vertex(to_vx)
+        self.vertices[from_vx].add_dependency(self.vertices[to_vx])
+
+    def dfs(self):
+        for vx in self.vertices.values():
+            if not vertex.visited:
+                self.dfs_visit(vx)
+
+    def dfs_visit(self, vertex):
+        vertex.visited = True
+        self.time += 1
+        vertex.discovered = self.time
+        for neighbour in vertex.connected_to:
+            if not neighbour.visited:
+                neighbour.predecdessor = vertex
+                self.dfs_visit(neighbour)
+        vertex.fully_searached = True
+        self.time += 1
+        vertex.finished = self.time
+
+    def topological_sort(self):
+        self.dfs()
+        ordered = [vx for vx in self.vertices.values()]
+        ordered.sort(key=lambda x: x.finished)
+        return ordered
