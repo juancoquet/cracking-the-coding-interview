@@ -228,7 +228,7 @@ class Graph:
 
     def dfs(self):
         for vx in self.vertices.values():
-            if not vertex.visited:
+            if not vx.visited:
                 self.dfs_visit(vx)
 
     def dfs_visit(self, vertex):

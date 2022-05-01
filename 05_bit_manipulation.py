@@ -66,3 +66,29 @@ def converstion(a, b):
 def get_bit(num, i):
     mask = 1 << i
     return num & mask != 0
+
+
+# 5.7 pairwise swap
+def get_bit(num, i):
+    mask = 1 << i
+    return (num & mask) != 0
+
+def set_bit(num, i):
+    mask = 1 << i
+    return num | mask
+
+def clear_bit(num, i):
+    mask = ~(1 << i)
+    return num & mask
+
+def pairwise_swap(num):
+    length = num.bitlength()
+    for i in range(length, 2):
+        b1 = get_bit(num, i)
+        b2 = get_bit(num, i+1)
+    if b1 and not b2:
+        clear_bit(num, i)
+        set_bit(num, i+1)
+    if b2 and not b1:
+        clear_bit(num, i+1)
+        set_bit(num, i)
