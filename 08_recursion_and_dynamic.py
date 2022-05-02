@@ -107,3 +107,22 @@ a.push(1)
 b = Stack()
 c = Stack()
 hanoi(from_=a, via=b, to=c)
+
+# 8.7 'permutations without dups'
+def permutations(string):
+    if len(string) == 1:
+        return [string]
+    
+    smaller_perms = permutations(string[:-1])
+    results = []
+    new_char = string[-1]
+    for perm in smaller_perms:
+        length = len(perm)
+        for i in range(length):
+            left = perm[:i]
+            right = perm[i:]
+            result = left + new_char + right
+            results.append(result)
+        results.append(perm + new_char)
+
+    return results
