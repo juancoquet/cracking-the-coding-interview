@@ -248,3 +248,37 @@ class Graph:
         ordered = [vx for vx in self.vertices.values()]
         ordered.sort(key=lambda x: x.finished)
         return ordered
+
+    
+# 4.8 first common ancestor
+def dfs(root, target, ignore_left=False, ignore_right=False):
+    if root is target:
+        return True
+    if not ignore_left and root.left_child is not None:
+        found_left = dfs(root.left_child, target)
+    else:
+        found_left = False
+    if not ignore_right and root.right_child is not None:
+        found_right = dfs(root.right_child, target)
+    else:
+        found_right = False
+    
+    return found_left or found_right
+
+
+def first_common_ancestor(node1, node2):
+    ancestor = node1.parent
+    ign_l = False
+    ign_r = False
+    while not dfs(ancestor, node2, ign_l, ign_r):
+        last_searched = ancestor
+        ancestor = ancestor.parent
+        if ancestor.right_child is last_searched:
+            ign_r = True
+        else:
+            ign_r = False
+        if ancestor.left_child is last_searched:
+            ign_l = True
+        else:
+            ign_l = False
+    return ancestor
