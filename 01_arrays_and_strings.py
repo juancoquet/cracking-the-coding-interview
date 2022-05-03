@@ -145,3 +145,11 @@ def zero_matrix(matrix):
                     row[c] = 0
                 break
     return matrix
+
+
+# 1.9 String Rotation
+def is_substring(s1, s2):
+    return s1 in s2
+
+def string_rotation(s1, s2):
+    return is_substring(s1, s2 + s2)
