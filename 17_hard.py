@@ -83,6 +83,49 @@ def letters_and_numbers(a):
                 longest_sub = a[start:i]
     return longest_sub
 
-a = [0, 0, 0, 0, 0, 'a', 1, 'b', 2, 'c', 3, 4, 5, 6, 'd']
 
-print(letters_and_numbers(a))
+# 17.6 count of twos
+# brute force
+def count_of_twos_a(n):
+    twos = 0
+    for num in range(n+1):
+        digits = list(str(num))
+        twos += digits.count('2')
+    return twos
+
+# optimised
+def digit_at_i(num, i):
+	for _ in range(i):
+		num = num // 10
+	return num % 10
+	
+def twos_at_i(num, i):
+	twos = 0
+	digit = digit_at_i(num, i)
+
+	round_down = num - num % 10**(i+1)
+	round_up = round_down + 10**(i+1)
+	right_of_i = num % 10**i
+
+	if digit < 2:
+		twos += round_down / 10
+	elif digit > 2:
+		twos += round_up / 10
+	elif digit == 2:
+		twos += round_down / 10 + right_of_i + 1
+
+	return twos
+
+def count_of_twos_b(num):
+	n = num
+	num_digits = 0
+	while n > 0:
+		num_digits += 1
+		n = n // 10
+
+	twos = 0
+
+	for i in range(num_digits):
+		twos += twos_at_i(num, i)
+
+	return int(twos)
