@@ -156,3 +156,22 @@ def intersection(a, b):
         current_b = current_b.next
 
     return current_a
+
+
+# 2.8 loop detection
+def loop_detection(ll):
+    slow = ll.head
+    fast = ll.head.next
+    while slow is not fast and fast is not None:
+        slow = slow.next
+        fast = fast.next.next
+    
+    if fast is None:
+        return None
+
+    curr = ll.head
+    visited = []
+    while curr not in visited:
+        visited.append(curr)
+        curr = curr.next
+    return curr
