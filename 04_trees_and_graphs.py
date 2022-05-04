@@ -282,3 +282,8 @@ def first_common_ancestor(node1, node2):
         else:
             ign_l = False
     return ancestor
+
+
+# print as binary
+num = ((1 << 2) - 1) ^ 0xFF
+print(f'{num:08b}')

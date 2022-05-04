@@ -92,3 +92,36 @@ def pairwise_swap(num):
     if b2 and not b1:
         clear_bit(num, i+1)
         set_bit(num, i)
+
+
+# 5.8 draw line
+def get_byte_index(x, y, bpl):
+    start_of_line = (y - 1) * bpl
+    return int(start_of_line + x // 8)
+
+def get_bit_index(x):
+    return int(8 - x % 8)
+
+def draw_line(arr, w, x1, x2, y):
+    h = len(arr) * 8 / w
+    bytes_per_line = len(arr) // h
+    
+    start_byte = get_byte_index(x1, y, bytes_per_line)
+    start_bit = get_bit_index(x1)
+    start_mask = (1 << (start_bit + 1)) - 1
+    arr[start_byte] = arr[start_byte] | start_mask
+
+    end_byte = get_byte_index(x2, y, bytes_per_line)
+    end_bit = get_bit_index(x2)
+    ones = 0xFF
+    end_mask = ((1 << end_bit) - 1) ^ ones
+    if start_byte != end_byte:
+        arr[end_byte] = arr[end_byte] | end_mask
+    else:
+        mask = start_mask & end_mask
+        arr[end_byte] = arr[end_byte] & mask
+
+    for i in range(start_byte + 1, end_byte):
+        arr[i] = arr[i] | ones
+
+    return arr
