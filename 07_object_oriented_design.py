@@ -224,3 +224,184 @@ class Jigsaw:
                 if piece.is_solved():
                     self.solved[piece.id] = piece
                     del self.placed[piece.id]
+
+
+# 7.8 othello
+WHITE = True
+BLACK = False
+
+class Piece:
+
+    def __init__(self, colour=WHITE):
+        self.colour = colour
+        self.square = None
+        
+        self.top = None
+        self.right = None
+        self.bottom = None
+        self.left = None
+
+    @property
+    def neighbours(self):
+        neighbours = [self.top, self.right, self.bottom, self.left]
+        return [n for n in neighbours if n is not None]
+
+    def _flip(self):
+        self.colour = not self.colour
+
+    def update(self):
+        vertical, horizontal = False, False
+        if self.top is not None and self.bottom is not None:
+            if (self.top.colour != self.colour 
+            and self.bottom.colour != self.colour):
+                vertical = True
+            if (self.left.colour != self.colour
+            and self.right.colour != self.colour):
+                horizontal = False
+        
+        if vertical or horizontal:
+            self._flip()
+        
+        return vertical or horizontal
+
+
+class Board:
+
+    def __init__(self, size=8):
+        self.size = size
+        self.occupied = []
+        self.unoccupied = []
+        self.squares = self._generate_board()
+        self.turn = WHITE
+        self._place_start_pieces()
+
+    def _generate_board(self):
+        squares = {}
+        for r in range(self.size):
+            for c in range(self.size):
+                sq = (r, c)
+                squares[sq] = None
+                self.unoccupied.append(sq)
+        
+        return squares
+
+    def _change_turn(self):
+        self.turn = not self.turn
+
+    def _place_start_pieces(self):
+        mid = self.size // 2
+        self.place((mid, mid), skip_validation=True)
+        self.place((mid, mid-1), skip_validation=True)
+        self.place((mid-1, mid-1), skip_validation=True)
+        self.place((mid-1, mid), skip_validation=True)
+
+    def place(self, sq, skip_validation=False):
+        if not skip_validation:
+            if self.squares[sq] is not None:
+                raise InvalidMove('Square is not empty')
+                
+            if not self._move_valid(sq):
+                raise InvalidMove('Move is not valid')
+        
+        piece = Piece(colour=self.turn)
+
+        self.squares[sq] = piece
+        piece.square = sq
+        self.unoccupied.remove(sq)
+        self.occupied.append(sq)
+        self._update_connections(piece)
+        self._update_surroundings(piece)
+        self._change_turn()
+
+    def _move_valid(self, sq):
+        r, c = sq
+
+        top = self.squares.get((r-1, c))
+        if top is not None:
+            if top.colour != self.turn:
+                while top is not None:
+                    if top.colour == self.turn:
+                        return True
+                    top = top.top
+
+        right = self.squares.get((r, c+1))
+        if right is not None:
+            if right.colour != self.turn:
+                while right is not None:
+                    if right.colour == self.turn:
+                        return True
+                    right = right.right
+
+        bottom = self.squares.get((r+1, c))
+        if bottom is not None:
+            if bottom.colour != self.turn:
+                while bottom is not None:
+                    if bottom.colour == self.turn:
+                        return True
+                    bottom = bottom.bottom
+
+        left = self.squares.get((r, c-1))
+        if left is not None:
+            if left.colour != self.turn:
+                while left is not None:
+                    if left.colour == self.turn:
+                        return True
+                    left = left.left
+
+        return False
+
+    def _update_surroundings(self, piece):
+        to_visit = [piece]
+        while len(to_visit) > 0:
+            curr = to_visit.pop(0)
+            for neighbour in curr.neighbours:
+                updated = neighbour.update()
+                if updated:
+                    to_visit.append(neighbour)
+
+    def _update_connections(self, piece):
+        r, c = piece.square
+        piece.top = self.squares.get((r-1, c))
+        piece.right = self.squares.get((r, c+1))
+        piece.bottom = self.squares.get((r+1, c))
+        piece.left = self.squares.get((r, c-1))
+
+    @property
+    def end_game(self):
+        for sq in self.unoccupied:
+            if self._move_valid(sq):
+                return False
+        return True
+
+    def get_winner(self):
+        white, black = 0, 0
+        for sq in self.occupied:
+            if self.squares[sq].colour == WHITE:
+                white += 1
+            elif self.squares[sq].colour == BLACK:
+                black += 1
+        if white > black:
+            return 'white'
+        elif black > white:
+            return 'black'
+        else:
+            return None
+
+class InvalidMove(Exception):
+    pass
+
+
+
+board = Board()
+
+# game loop
+while not board.end_game:
+    r = input('row?')
+    c = input('col?')
+    sq = (int(r), int(c))
+    try:
+        board.place(sq)
+    except InvalidMove as e:
+        print(e)
+        continue
+winner = board.get_winner()
