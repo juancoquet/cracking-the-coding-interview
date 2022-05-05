@@ -97,17 +97,6 @@ def hanoi(from_, via, to, n=None):
     to.push(from_.pop())
     hanoi(from_=via, via=from_, to=to, n=n-1)
 
-from data_structures.stack import Stack
-a = Stack()
-a.push(5)
-a.push(4)
-a.push(3)
-a.push(2)
-a.push(1)
-b = Stack()
-c = Stack()
-hanoi(from_=a, via=b, to=c)
-
 # 8.7 'permutations without dups'
 def permutations(string):
     if len(string) == 1:
@@ -126,3 +115,38 @@ def permutations(string):
         results.append(perm + new_char)
 
     return results
+
+
+# 8.8 'permutations without dups'
+class PrefixTree:
+
+    def __init__(self, key=None):
+        self.key = key
+        self.children = {}
+
+    def _add_child(self, key):
+        if key not in self.children:
+            self.children[key] = PrefixTree(key)
+
+    def build_prefixes(self, string):
+        if len(string) > 0:
+            chars = list(string)
+            for c in chars:
+                self._add_child(c)
+    
+            for key, child in self.children.items():
+                remaining = chars[:]
+                remaining.remove(key)
+                remaining = ''.join(remaining)
+                child.build_prefixes(remaining)
+
+    def read_permutations(self, permutation=''):
+        if self.key is not None:
+            permutation += self.key
+            
+        if len(self.children) == 0:
+            print(permutation)
+            return
+            
+        for child in self.children.values():
+            child.read_permutations(permutation)
