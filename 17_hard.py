@@ -133,57 +133,64 @@ def count_of_twos_b(num):
 
 # 17.7 baby names
 def baby_names(names, synonyms):
-	name_synonyms = {}
-	
-	for n1, n2 in synonyms:
-		# add keys if don't exist
-		if n1 not in name_synonyms:
-			name_synonyms[n1] = []
-		if n2 not in name_synonyms:
-			name_synonyms[n2] = []
+    name_synonyms = {}
+    
+    for n1, n2 in synonyms:
+        # add keys if don't exist
+        if n1 not in name_synonyms:
+            name_synonyms[n1] = []
+        if n2 not in name_synonyms:
+            name_synonyms[n2] = []
 
-		# get already existing syns
-		n1_syns = name_synonyms[n1][:]
-		n2_syns = name_synonyms[n2][:]
+        # get already existing syns
+        n1_syns = name_synonyms[n1][:]
+        n2_syns = name_synonyms[n2][:]
 
-		# add n2 to n1
-		if not n2 in name_synonyms[n1]:
-			name_synonyms[n1].append(n2)
-		# add n1 to n2
-		if not n1 in name_synonyms[n2]:
-			name_synonyms[n2].append(n1)
+        # add n2 to n1
+        if not n2 in name_synonyms[n1]:
+            name_synonyms[n1].append(n2)
+        # add n1 to n2
+        if not n1 in name_synonyms[n2]:
+            name_synonyms[n2].append(n1)
 
-		# add n2 to all other syns of n1	
-		for syn in n1_syns:
-			if n2 not in name_synonyms[syn]:
-				name_synonyms[syn].append(n2)
-			# add syns of n1 to n2
-			if syn not in name_synonyms[n2]:
-				name_synonyms[n2].append(syn)
-		# add n1 to all other syns of n2
-		for syn in n2_syns:
-			if n1 not in name_synonyms[syn]:
-				name_synonyms[syn].append(n1)
-			# add syns of n2 to n1
-			if syn not in name_synonyms[n1]:
-				name_synonyms[n1].append(syn)
+        # add n2 to all other syns of n1	
+        for syn in n1_syns:
+            if n2 not in name_synonyms[syn]:
+                name_synonyms[syn].append(n2)
+            # add syns of n1 to n2
+            if syn not in name_synonyms[n2]:
+                name_synonyms[n2].append(syn)
+        # add n1 to all other syns of n2
+        for syn in n2_syns:
+            if n1 not in name_synonyms[syn]:
+                name_synonyms[syn].append(n1)
+            # add syns of n2 to n1
+            if syn not in name_synonyms[n1]:
+                name_synonyms[n1].append(syn)
 
-	freq = {}
-	for name in name_synonyms.keys():
-		freq[name] = 0
+    freq = {}
+    for name in name_synonyms.keys():
+        freq[name] = 0
 
-	for name, count in names:
-		freq[name] += count
-		syns = name_synonyms[name]
-		for syn in syns:
-			freq[syn] += count
+    for name, count in names:
+        if not name in freq:
+            freq[name] = count
+        else:
+            freq[name] += count
+            syns = name_synonyms[name]
+            for syn in syns:
+                freq[syn] += count
 
-	while len(name_synonyms) > 0:
-		first = [k for k in name_synonyms.keys()][0]
-		syns = name_synonyms[first]
-		for s in syns:
-			del name_synonyms[s]
-			del freq[s]
-		del name_synonyms[first]
+    while len(name_synonyms) > 0:
+        first = [k for k in name_synonyms.keys()][0]
+        syns = name_synonyms[first]
+        for s in syns:
+            del name_synonyms[s]
+            del freq[s]
+        del name_synonyms[first]
 
-	return freq
+    return freq
+
+names = [('John', 15), ('Jon', 12), ('Chris', 13), ('Kris', 4), ('Christopher', 19), ('Jonathan', 3), ('Rachel', 8)]
+synonyms = [('Jon', 'John'), ('John', 'Johnny'), ('Chris', 'Kris'), ('Kris', 'Christopher'), ('Jonathan', 'Jon')]
+print(baby_names(names, synonyms))
