@@ -95,37 +95,95 @@ def count_of_twos_a(n):
 
 # optimised
 def digit_at_i(num, i):
-	for _ in range(i):
-		num = num // 10
-	return num % 10
-	
+    for _ in range(i):
+        num = num // 10
+    return num % 10
+    
 def twos_at_i(num, i):
-	twos = 0
-	digit = digit_at_i(num, i)
+    twos = 0
+    digit = digit_at_i(num, i)
 
-	round_down = num - num % 10**(i+1)
-	round_up = round_down + 10**(i+1)
-	right_of_i = num % 10**i
+    round_down = num - num % 10**(i+1)
+    round_up = round_down + 10**(i+1)
+    right_of_i = num % 10**i
 
-	if digit < 2:
-		twos += round_down / 10
-	elif digit > 2:
-		twos += round_up / 10
-	elif digit == 2:
-		twos += round_down / 10 + right_of_i + 1
+    if digit < 2:
+        twos += round_down / 10
+    elif digit > 2:
+        twos += round_up / 10
+    elif digit == 2:
+        twos += round_down / 10 + right_of_i + 1
 
-	return twos
+    return twos
 
 def count_of_twos_b(num):
-	n = num
-	num_digits = 0
-	while n > 0:
-		num_digits += 1
-		n = n // 10
+    n = num
+    num_digits = 0
+    while n > 0:
+        num_digits += 1
+        n = n // 10
 
-	twos = 0
+    twos = 0
 
-	for i in range(num_digits):
-		twos += twos_at_i(num, i)
+    for i in range(num_digits):
+        twos += twos_at_i(num, i)
 
-	return int(twos)
+    return int(twos)
+
+
+# 17.7 baby names
+def baby_names(names, synonyms):
+	name_synonyms = {}
+	
+	for n1, n2 in synonyms:
+		# add keys if don't exist
+		if n1 not in name_synonyms:
+			name_synonyms[n1] = []
+		if n2 not in name_synonyms:
+			name_synonyms[n2] = []
+
+		# get already existing syns
+		n1_syns = name_synonyms[n1][:]
+		n2_syns = name_synonyms[n2][:]
+
+		# add n2 to n1
+		if not n2 in name_synonyms[n1]:
+			name_synonyms[n1].append(n2)
+		# add n1 to n2
+		if not n1 in name_synonyms[n2]:
+			name_synonyms[n2].append(n1)
+
+		# add n2 to all other syns of n1	
+		for syn in n1_syns:
+			if n2 not in name_synonyms[syn]:
+				name_synonyms[syn].append(n2)
+			# add syns of n1 to n2
+			if syn not in name_synonyms[n2]:
+				name_synonyms[n2].append(syn)
+		# add n1 to all other syns of n2
+		for syn in n2_syns:
+			if n1 not in name_synonyms[syn]:
+				name_synonyms[syn].append(n1)
+			# add syns of n2 to n1
+			if syn not in name_synonyms[n1]:
+				name_synonyms[n1].append(syn)
+
+	freq = {}
+	for name in name_synonyms.keys():
+		freq[name] = 0
+
+	for name, count in names:
+		freq[name] += count
+		syns = name_synonyms[name]
+		for syn in syns:
+			freq[syn] += count
+
+	while len(name_synonyms) > 0:
+		first = [k for k in name_synonyms.keys()][0]
+		syns = name_synonyms[first]
+		for s in syns:
+			del name_synonyms[s]
+			del freq[s]
+		del name_synonyms[first]
+
+	return freq
