@@ -109,3 +109,13 @@ def smallest_difference(a_arr, b_arr):
     _smallest_difference(a_arr) # merge sort
     _smallest_difference(b_arr) # merge sort
     return _smallest_difference(a_arr + b_arr, midpoint=len(a_arr))
+
+
+# 16.7 number max
+def number_max(a, b):
+  diff = b - a
+  sign = get_sign(diff)
+  return a * sign + b * (1 - sign)
+
+def get_sign(x):
+    return (x & (1 << 63)) >> 63
