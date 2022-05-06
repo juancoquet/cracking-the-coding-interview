@@ -134,3 +134,21 @@ def sparse_search(target, a, left=0):
             return sparse_search(target, a[mid+1:], left=mid+left+1)
         if a[mid] > target:
             return sparse_search(target, a[:mid], left=left)
+
+
+# 10.8 find duplicates
+def find_duplicates(a):
+    bv = 0
+    for i in a:
+        if get_bit(bv, i-1):
+            print(i)
+        else:
+            bv = set_bit(bv, i-1)
+
+def get_bit(num, i):
+    mask = 1 << i
+    return (num & mask) != 0
+
+def set_bit(num, i):
+    mask = 1 << i
+    return num | mask
