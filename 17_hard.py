@@ -190,7 +190,3 @@ def baby_names(names, synonyms):
         del name_synonyms[first]
 
     return freq
-
-names = [('John', 15), ('Jon', 12), ('Chris', 13), ('Kris', 4), ('Christopher', 19), ('Jonathan', 3), ('Rachel', 8)]
-synonyms = [('Jon', 'John'), ('John', 'Johnny'), ('Chris', 'Kris'), ('Kris', 'Christopher'), ('Jonathan', 'Jon')]
-print(baby_names(names, synonyms))

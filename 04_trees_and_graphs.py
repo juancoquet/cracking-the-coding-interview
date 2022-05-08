@@ -284,6 +284,17 @@ def first_common_ancestor(node1, node2):
     return ancestor
 
 
-# print as binary
-num = ((1 << 2) - 1) ^ 0xFF
-print(f'{num:08b}')
+# 4.10 check subtree
+def check_subtree(root, target):
+    if root is target:
+        return True
+    elif root is None:
+        return False
+    
+    left = root.left_child
+    right = root.right_child
+    
+    exists_left = dfs(left, target)
+    exists_right = dfs(right, target)
+    
+    return exists_left or exists_right

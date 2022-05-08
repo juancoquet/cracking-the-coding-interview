@@ -392,16 +392,51 @@ class InvalidMove(Exception):
 
 
 
-board = Board()
+# board = Board()
 
 # game loop
-while not board.end_game:
-    r = input('row?')
-    c = input('col?')
-    sq = (int(r), int(c))
-    try:
-        board.place(sq)
-    except InvalidMove as e:
-        print(e)
-        continue
-winner = board.get_winner()
+# while not board.end_game:
+#     r = input('row?')
+#     c = input('col?')
+#     sq = (int(r), int(c))
+#     try:
+#         board.place(sq)
+#     except InvalidMove as e:
+#         print(e)
+#         continue
+# winner = board.get_winner()
+
+
+# 7.9 circular array
+class CircularArray:
+
+    def __init__(self, arr):
+        self.arr = arr
+        
+    def __iter__(self):
+        for x in self.arr:
+            yield x
+
+    def __repr__(self):
+        return self.arr
+
+    def __str__(self):
+        s = "["
+        for x in self:
+            s += str(x) + ', '
+        s = s[:-2] + ']'
+        return s
+
+    def rotate_left(self, n=1):
+        if len(self.arr) <= 1:
+            return
+        for _ in range(n):
+            first = self.arr[0]
+            self.arr = self.arr[1:] + [first]
+
+    def rotate_right(self, n=1):
+        if len(self.arr) <= 1:
+            return
+        for _ in range(n):
+            last = self.arr[-1]
+            self.arr = [last] + self.arr[:-1]
