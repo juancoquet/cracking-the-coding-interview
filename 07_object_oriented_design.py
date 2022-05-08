@@ -440,3 +440,25 @@ class CircularArray:
         for _ in range(n):
             last = self.arr[-1]
             self.arr = [last] + self.arr[:-1]
+
+
+class CircularArray2(list):
+
+    def __init__(self, arr):
+        super().__init__(arr)
+    
+    def rotate_left(self, n=1):
+        if len(self) <= 1:
+            return
+        for _ in range(n):
+            first = self[0]
+            self.append(first)
+            self.pop(0)
+
+    def rotate_right(self, n=1):
+        if len(self) <= 1:
+            return
+        for _ in range(n):
+            last = self[-1]
+            self.insert(0, last)
+            self.pop()
