@@ -119,3 +119,88 @@ def number_max(a, b):
 
 def get_sign(x):
     return (x & (1 << 63)) >> 63
+
+
+# 16.9 'english int'
+def english_int(n):
+    if n == 0:
+        return 'zero'
+
+    units = {
+        0: '',
+        1: 'one',
+        2: 'two',
+        3: 'three',
+        4: 'four',
+        5: 'five',
+        6: 'six',
+        7: 'seven',
+        8: 'eight',
+        9: 'nine',
+    }
+    tens = {
+        2: 'twenty',
+        3: 'thirty',
+        4: 'forty',
+        5: 'fifty',
+        6: 'sixty',
+        7: 'seventy',
+        8: 'eighty',
+        9: 'ninety',
+    }
+    teens = {
+        0: 'ten',
+        1: 'eleven',
+        2: 'twelve',
+        3: 'thirteen',
+        4: 'fourteen',
+        5: 'fifteen',
+        6: 'sixteen',
+        7: 'seventeen',
+        8: 'eighteen',
+        9: 'nineteen',
+    }
+    macros = {
+        0: '',
+        1: ' thousand, ',
+        2: ' million, ',
+        3: ' billion, ',
+    }
+
+    output = ''
+    macro = 0
+
+    while n > 0:
+        last_three = n % 1000
+        n = n // 1000
+        if last_three == 0:
+            continue
+
+        digits = list(str(last_three))
+        digits = [int(d) for d in digits]
+        h, t, u = 0, 0, 0
+        if digits:
+            u = digits.pop()
+        if digits:
+            t = digits.pop()
+        if digits:
+            h = digits.pop()
+        
+        group = ''
+        
+        if h:
+            group += units[h] + ' hundred '
+        if t > 1:
+            group += tens[t] + ' '
+            group += units[u]
+        elif t == 1:
+            group += teens[u]
+        elif t == 0:
+            group += units[u]
+
+        group += macros[macro]
+        macro += 1
+        
+        output = group + output
+
+    return output
