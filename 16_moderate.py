@@ -121,7 +121,7 @@ def get_sign(x):
     return (x & (1 << 63)) >> 63
 
 
-# 16.9 'english int'
+# 16.8 'english int'
 def english_int(n):
     if n == 0:
         return 'zero'

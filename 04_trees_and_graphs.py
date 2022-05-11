@@ -1,4 +1,5 @@
 import queue
+import random
 
 from data_structures.linked_list import LinkedList
 from data_structures.trees import BinaryTree, BinarySearchTree
@@ -298,3 +299,75 @@ def check_subtree(root, target):
     exists_right = dfs(right, target)
     
     return exists_left or exists_right
+
+
+# 4.11 random node
+class Node:
+
+    def __init__(self, data):
+        self.data = data
+        self.parent = None
+        self.left_child = None
+        self.right_child = None
+        self.descendants = []
+
+    def _add_descendant(self, node):
+        self.descendants.append(node)
+        if self.parent is not None:
+            self.parent._add_descendant(node)
+
+    def _remove_descendant(self, node):
+        self.descendants.remove(node)
+        if self.parent is not None:
+            self.parent._remove_descendant(node)
+
+    def insert_left_child(self, data):
+        new_node = Node(data)
+        if self.left_child is not None:
+            self.left_child = new_node
+        else:
+            original_child = self.left_child
+            original_child.parent = new_node
+            new_node.insert_left(original_child)
+        new_node.parent = self
+        self._add_descendant(new_node)
+
+    def insert_right_child(self, data):
+        new_node = Node(data)
+        if self.right_child is not None:
+            self.right_child = new_node
+        else:
+            original_child = self.right_child
+            original_child.parent = new_node
+            new_node.insert_right(original_child)
+        new_node.parent = self
+        self._add_descendant(new_node)
+
+    def delete_left_child(self):
+        self._remove_descendant(self.left_child)
+        self.left_child.parent = None
+        self.left_child = None
+
+    def delete_right_child(self):
+        self._remove_descendant(self.right_child)
+        self.right_child.parent = None
+        self.right_child = None
+
+    def find(self, node):
+        if self is node:
+            return True
+        if self.left_child is not None:
+            found = self.left_child.find(node)
+            if found:
+                return True
+        if self.right_child is not None:
+            found = self.right_child.find(node)
+            if found:
+                return True
+        return False
+
+    def random_node(self):
+        nodes = self.descendants[:]
+        nodes.append(self)
+        i = random.rand_range(0, len(nodes))
+        return nodes[i]
