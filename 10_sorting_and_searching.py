@@ -152,3 +152,27 @@ def get_bit(num, i):
 def set_bit(num, i):
     mask = 1 << i
     return num | mask
+
+
+# soliving 10.10 'rank from stream'
+def track(num, arr=[]):
+    i = get_index(num, arr)
+    return arr[:i] + [num] + arr[i:]
+
+def get_rank(num, arr): # assuming num exists in arr
+    i = get_index(num, arr)
+    while arr[i] == num:
+        i += 1
+    return i -1
+
+def get_index(num, arr, left_i=0):
+    if len(arr) == 0:
+        return left_i
+    mid = len(arr) // 2
+    if arr[mid] == num:
+        return left_i + mid
+        
+    elif arr[mid] > num:
+        return get_index(num, arr[:mid], left_i=left_i)
+    elif arr[mid] < num:
+        return get_index(num, arr[mid+1:], left_i=left_i+mid+1)
