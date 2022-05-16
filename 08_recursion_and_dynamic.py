@@ -150,3 +150,29 @@ class PrefixTree:
             
         for child in self.children.values():
             child.read_permutations(permutation)
+
+# 8.10 'paint fill'
+def paint_fill(start, new_color, screen):
+    num_rows = len(screen)
+    num_cols = len(screen[0])
+    deltas = [
+        (-1, 0),
+        (0, 1),
+        (1, 0),
+        (0, -1)
+    ]
+    r, c = start
+    orig_color = screen[r][c]
+    
+    to_visit = [start]
+    while len(to_visit) > 0:
+        curr = to_visit.pop(0)
+        r, c = curr
+        screen[r][c] = new_color
+        for d in deltas:
+            r_delta, c_delta = d
+            check_r = r + r_delta
+            check_c = c + c_delta
+            if 0 <= check_r < num_rows and 0 <= check_c < num_cols:
+                if screen[check_r][check_c] == orig_color:
+                    to_visit.append((check_r, check_c))
