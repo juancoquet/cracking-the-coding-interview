@@ -208,39 +208,41 @@ def english_int(n):
 
 # 16.9 'operations'
 def multiply(a, b):
-	result = 0
-	for _ in range(abs(b)):
-		result += a
-	if b < 0:
-		return -result
-	return result
+    result = 0
+    for _ in range(abs(b)):
+        result += a
+    if b < 0:
+        return -result
+    return result
 
 def subtract(a, b):
-	result = 0
-	if b < a:
-		while b < a:
-			result += 1
-			b += 1
-	elif b > a:
-		while a < b:
-			result += 1
-			a += 1
-		result = -result
-	return result
+    result = 0
+    if b < a:
+        while b < a:
+            result += 1
+            b += 1
+    elif b > a:
+        while a < b:
+            result += 1
+            a += 1
+        result = -result
+    return result
 
 def divide(a, b):
-	result = 0
-	running_total = 0
-	if a > 0:
-		while running_total < a:
-			result += 1
-			running_total += abs(b)
-		if b < 0:
-			result = -result
-	elif a < 0:
-		while running_total > a:
-			result += 1
-			running_total = subtract(running_total, abs(b))
-		if b > 0:
-			result = -result
-	return result
+    if b == 0:
+        raise ZeroDivisionError
+    result = 0
+    running_total = 0
+    if a > 0:
+        while running_total < a:
+            result += 1
+            running_total += abs(b)
+        if b < 0:
+            result = -result
+    elif a < 0:
+        while running_total > a:
+            result += 1
+            running_total = subtract(running_total, abs(b))
+        if b > 0:
+            result = -result
+    return result
