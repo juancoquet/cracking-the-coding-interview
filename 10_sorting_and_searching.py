@@ -176,3 +176,23 @@ def get_index(num, arr, left_i=0):
         return get_index(num, arr[:mid], left_i=left_i)
     elif arr[mid] < num:
         return get_index(num, arr[mid+1:], left_i=left_i+mid+1)
+
+
+# 10.11 peaks and valleys
+def peaks_and_valleys(arr):
+    if len(arr) <= 2:
+        return arr
+    i = 1
+    while i < len(arr) - 1:
+        h, j = i-1, i+1
+        max_idx = get_max_idx(arr, h, i, j)
+        if i != max_idx:
+            arr[i], arr[max_idx] = arr[max_idx], arr[i]
+        i += 2
+    return arr
+
+def get_max_idx(arr, i, j, k):
+    values = [arr[i], arr[j], arr[k]]
+    biggest = max(values)
+    which = values.index(biggest)
+    return [i, j, k][which]
