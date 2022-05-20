@@ -190,3 +190,48 @@ def baby_names(names, synonyms):
         del name_synonyms[first]
 
     return freq
+
+
+# 17.9 kth multiple
+from math import sqrt, ceil
+
+
+def erastothenes(n):
+    if n <= 2:
+        return []
+    is_prime = [True] * n
+    is_prime[0] = False
+    is_prime[1] = False
+
+    for i in range(2, ceil(sqrt(n))):
+        for multiple in range(i**2, n, i):
+            is_prime[multiple] = False
+    
+    return [i for i in range(n) if is_prime[i]]
+
+def check_prime_factors(n):
+    if n % 2 == 0:
+        return False
+    primes = erastothenes(n+1)
+    try:
+        primes.remove(3)
+        primes.remove(5)
+        primes.remove(7)
+    except ValueError:
+        pass
+    if n in primes:
+        return False
+
+    for prime in primes:
+        if n % prime == 0:
+            return False
+    return True
+
+def kth_multiple(k):
+    found_multiples = 0
+    i = 1
+    while found_multiples < k:
+        if check_prime_factors(i):
+            found_multiples += 1
+        i += 1
+    return i - 1
