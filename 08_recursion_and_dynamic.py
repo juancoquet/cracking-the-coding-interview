@@ -176,3 +176,52 @@ def paint_fill(start, new_color, screen):
             if 0 <= check_r < num_rows and 0 <= check_c < num_cols:
                 if screen[check_r][check_c] == orig_color:
                     to_visit.append((check_r, check_c))
+
+
+# 8.11 'coins'
+def simplest_change(n):
+    change = {
+        25: 0,
+        10: 0,
+        5: 0,
+        1: 0
+    }
+    while n >= 25:
+        change[25] += 1
+        n -= 25
+    while n >= 10:
+        change[10] += 1
+        n -= 10
+    while n >= 5:
+        change[5] += 1
+        n -= 5
+    while n:
+        change[1] += 1
+        n -= 1
+    return change
+
+def generate_combinations(change, combos=[]):
+    combos += [change]
+    if not (change[25] or change[10] or change[5]):
+        return combos
+    if change[5]:
+        new_combo = change.copy()
+        new_combo[5] -= 1
+        new_combo[1] += 5
+        combos = generate_combinations(new_combo, combos)
+    if change[10]:
+        new_combo = change.copy()
+        new_combo[10] -= 1
+        new_combo[5] += 2
+        combos = generate_combinations(new_combo, combos)
+    if change[25]:
+        new_combo = change.copy()
+        new_combo[25] -= 1
+        new_combo[10] += 2
+        new_combo[5] += 1
+        combos = generate_combinations(new_combo, combos)
+    return combos
+
+def coins(n):
+    simplest = simplest_change(n)
+    return generate_combinations(simplest)
