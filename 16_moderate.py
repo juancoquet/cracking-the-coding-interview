@@ -273,3 +273,28 @@ def diving_board(k, shorter=1, longer=2):
     min_length = shorter * k
     max_length = longer * k
     return [x for x in range(min_length, max_length + 1, diff)]
+
+
+# 16.12 'xml encoding'
+class XMLElement:
+
+    def __init__(self, tag, attrs={}, children=[], msg=''):
+        self.tag = tag
+        self.attrs = attrs
+        self.children = children
+        self.msg = msg
+
+
+def encode_xml(element, mappings):
+    output = ''
+    output += mappings[element.tag] + ' '
+    for attr, val in element.attrs.items():
+        encoded = mappings[attr] + ' ' + val + ' '
+        output += encoded
+    output += '0 ' + element.msg + ' '
+
+    for child in element.children:
+        output += encode_xml(child, mappings)
+
+    output += '0 '
+    return output
