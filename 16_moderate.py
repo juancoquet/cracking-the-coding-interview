@@ -246,3 +246,22 @@ def divide(a, b):
         if b > 0:
             result = -result
     return result
+
+
+# 16.10 'living people'
+def living_people(people):
+    counts = {}
+    for yr in range(1900, 2001):
+        counts[yr] = 0
+        
+    for p in people:
+        birth, death = p
+        for yr in range(birth, death+1):
+            counts[yr] += 1
+            
+    max_yr, max_count = 1900, counts[1900]
+    for yr, count in counts.items():
+        if count > max_count:
+            max_yr = yr
+            max_count = count
+    return max_yr
