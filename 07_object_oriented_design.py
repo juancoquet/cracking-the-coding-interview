@@ -462,3 +462,39 @@ class CircularArray2(list):
             last = self[-1]
             self.insert(0, last)
             self.pop()
+
+
+# 7.12 'hash table'
+class HashTable:
+
+    def __init__(self):
+        self.size = 11
+        self.slots = [[] for _ in range(self.size)]
+        self.data = [[] for _ in range(self.size)]
+
+    def _hash_func(self, key):
+        return key % self.size
+
+    def put(self, key, data):
+        slot_num = self._hash_func(key)
+        if not key in self.slots[slot_num]:
+            self.slots[slot_num].append(key)
+            self.data[slot_num].append(data)
+        else:
+            i = self.slots[slot_num].index(key)
+            self.data[slot_num][i] = data
+
+    def get(self, key):
+        slot_num = self._hash_func(key)
+        if key in self.slots[slot_num]:
+            i = self.slots[slot_num].index(key)
+            return self.data[slot_num][i]
+        else:
+            return None
+
+    def delete(self, key):
+        slot_num = self._hash_func(key)
+        if key in self.slots[slot_num]:
+            i = self.slots[slot_num].index(key)
+            self.slots[slot_num].pop(i)
+            self.data[slot_num].pop(i)
