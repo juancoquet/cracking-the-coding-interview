@@ -274,3 +274,55 @@ def majority_element(arr):
         last_checked = check[1]
         i = last_checked + 1
     return -1
+
+
+# 17.11 'word distance'
+def find_distances(text):
+    distances = {}
+    curr_dist = {}
+    words = text.split(' ')
+    i = 0
+    while i < len(words):
+        word = words[i]
+        # increment running dist values
+        for w in curr_dist.keys():
+            curr_dist[w] += 1
+        # reset distance for current word
+        curr_dist[word] = 0
+
+        # if the current word hasnt been logged
+        if not word in distances:
+            # map word to current distances
+            distances[word] = curr_dist.copy()
+        else: # current word has been logged, must update with new or lesser distances
+            for w, d in curr_dist.items():
+                # if the distance from word to w has not been logged
+                if not w in distances[word]:
+                    distances[word][w] = d
+                # elif a shorter distance has been found
+                elif d < distances[word][w]:
+                    distances[word][w] = d
+        i += 1
+
+    curr_dist = {}
+    i -= 1
+    while i >= 0:
+        word = words[i]
+        for w in curr_dist.keys():
+            curr_dist[w] += 1
+        curr_dist[word] = 0
+
+        if not word in distances:
+            distances[word] = curr_dist.copy()
+        else:
+            for w, d in curr_dist.items():
+                if not w in distances[word]:
+                    distances[word][w] = d
+                elif d < distances[word][w]:
+                    distances[word][w] = d
+        i -= 1
+
+    return distances
+
+def word_distance(distances, a, b):
+    return distances[a][b]
