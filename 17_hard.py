@@ -235,3 +235,42 @@ def kth_multiple(k):
             found_multiples += 1
         i += 1
     return i - 1
+
+
+# 17.10 'majority element'
+def check_sub_array(arr, start):
+    item = arr[start]
+    count = 1
+    i = start + 1
+    while count > 0 and i < len(arr):
+        if arr[i] == item:
+            count += 1
+        else:
+            count -= 1
+        i += 1
+    if count > 0:
+        return (True, i)
+    return (False, i)
+
+def validate(arr, i):
+    item = arr[i]
+    count = 0
+    for elem in arr:
+        if elem == item:
+            count += 1
+        else:
+            count -= 1
+    if count > 0:
+        return item
+    return -1
+
+def majority_element(arr):
+    i = 0
+    while i < len(arr):
+        check = check_sub_array(arr, i)
+        if check[0] == True:
+            if (maj_el := validate(arr, i)) != -1:
+                return maj_el
+        last_checked = check[1]
+        i = last_checked + 1
+    return -1
