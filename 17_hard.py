@@ -277,7 +277,7 @@ def majority_element(arr):
 
 
 # 17.11 'word distance'
-def find_distances(text):
+def generate_distances(text):
     distances = {}
     curr_dist = {}
     words = text.split(' ')
