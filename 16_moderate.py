@@ -265,3 +265,11 @@ def living_people(people):
             max_yr = yr
             max_count = count
     return max_yr
+
+
+# 16.11 'diving board'
+def diving_board(k, shorter=1, longer=2):
+    diff = longer - shorter
+    min_length = shorter * k
+    max_length = longer * k
+    return [x for x in range(min_length, max_length + 1, diff)]
